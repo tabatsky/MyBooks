@@ -13,7 +13,10 @@ import jatx.mybooks.data.db.entity.BookEntity
     entities = [
         BookEntity::class
     ],
-    version = 1
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): BookDao

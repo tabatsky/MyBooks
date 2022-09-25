@@ -9,7 +9,8 @@ data class Book(
     var author: String = "",
     var title: String = "",
     var type: BookType = BookType.PROGRAMMING,
-    var date: Date = lastDate
+    var date: Date = lastDate,
+    var isAudioBook: Boolean = false
 ) {
     val dateAsString: String
         get(){
@@ -20,7 +21,7 @@ data class Book(
     val backupString: String
         get() {
             val typeIndex = BookType.indexOfBookType(type)
-            return "$id|$author|$title|$dateAsString|$typeIndex"
+            return "$id|$author|$title|$dateAsString|$typeIndex|$isAudioBook"
         }
 
     companion object {

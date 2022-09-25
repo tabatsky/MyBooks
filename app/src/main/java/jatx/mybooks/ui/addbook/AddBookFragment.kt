@@ -62,6 +62,8 @@ class AddBookFragment : Fragment() {
             viewModel.book.type = BookType.bookTypeByIndex(it)
         }
 
+        binding.isAudioBook.isChecked = viewModel.book.isAudioBook
+
         binding.dateButton.text = viewModel.book.dateAsString
         binding.dateButton.setOnClickListener {
             val book = viewModel.book
@@ -85,6 +87,8 @@ class AddBookFragment : Fragment() {
                 showToast(R.string.toast_empty_title)
                 return@setOnClickListener
             }
+
+            book.isAudioBook = binding.isAudioBook.isChecked
 
             viewModel.save {
                 afterSaving()

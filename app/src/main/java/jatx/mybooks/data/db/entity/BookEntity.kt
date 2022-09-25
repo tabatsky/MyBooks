@@ -1,5 +1,6 @@
 package jatx.mybooks.data.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -19,7 +20,8 @@ data class BookEntity(
     val author: String,
     val title: String,
     val type: Int,
-    val date: Long
+    val date: Long,
+    @ColumnInfo(name="is_audio_book", defaultValue = "0") val isAudioBook: Boolean
 )
 
 fun BookEntity.toModel() = Book(
@@ -27,7 +29,8 @@ fun BookEntity.toModel() = Book(
     author = author,
     title = title,
     type = BookType.bookTypeByIndex(type),
-    date = Date(date)
+    date = Date(date),
+    isAudioBook = isAudioBook
 )
 
 fun Book.toEntity() = BookEntity(
@@ -35,5 +38,6 @@ fun Book.toEntity() = BookEntity(
     author = author,
     title = title,
     type = BookType.indexOfBookType(type),
-    date = date.time
+    date = date.time,
+    isAudioBook = isAudioBook
 )

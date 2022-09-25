@@ -1,6 +1,7 @@
 package jatx.mybooks.ui.booklist
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -40,6 +41,10 @@ class BookHolder(
             author.text = book.author
             title.text = book.title
             date.text = book.dateAsString
+            isAudioBook.visibility = if (book.isAudioBook)
+                View.VISIBLE
+            else
+                View.INVISIBLE
         }
 
     }
@@ -55,6 +60,7 @@ class BookDiffUtil(): DiffUtil.ItemCallback<Book>() {
             .and(oldItem.title == newItem.title)
             .and(oldItem.type == newItem.type)
             .and(oldItem.date == newItem.date)
+            .and(oldItem.isAudioBook == newItem.isAudioBook)
     }
 
 }
