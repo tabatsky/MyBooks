@@ -2,11 +2,8 @@ package jatx.mybooks.ui.addbook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import jatx.mybooks.App
 import jatx.mybooks.domain.models.Book
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import jatx.mybooks.domain.repository.BookRepository
 import kotlinx.coroutines.launch
 
 class AddBookViewModel : ViewModel() {
@@ -20,7 +17,7 @@ class AddBookViewModel : ViewModel() {
             onLoadSuccess()
         } else {
             viewModelScope.launch {
-                _book = App.bookRepository.getBookById(id)
+                _book = BookRepository.INSTANCE.getBookById(id)
                 onLoadSuccess()
             }
         }
@@ -28,9 +25,9 @@ class AddBookViewModel : ViewModel() {
 
     fun save(onSaved: () -> Unit) = viewModelScope.launch {
         if (book.id < 0) {
-            App.bookRepository.addBook(book)
+            BookRepository.INSTANCE.addBook(book)
         } else {
-            App.bookRepository.updateBook(book)
+            BookRepository.INSTANCE.updateBook(book)
         }
         Book.lastDate = book.date
         onSaved()

@@ -6,11 +6,9 @@ import android.os.Environment
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import jatx.mybooks.App
 import jatx.mybooks.R
-import jatx.mybooks.util.Backup.saveLauncher
+import jatx.mybooks.domain.repository.BookRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -43,7 +41,7 @@ fun AppCompatActivity.onSavePermissionGranted() {
     lifecycleScope.launch {
         withContext(Dispatchers.IO) {
             Log.e("Backup", "launched")
-            App.bookRepository.getAllBooks().stateIn(lifecycleScope).value.let { books ->
+            BookRepository.INSTANCE.getAllBooks().stateIn(lifecycleScope).value.let { books ->
                 try {
                     val dir = Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)

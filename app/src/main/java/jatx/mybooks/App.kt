@@ -10,10 +10,6 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         val appDatabase = AppDatabase.invoke(this)
-        bookRepository = BookRepositoryImpl(appDatabase)
-    }
-
-    companion object {
-        lateinit var bookRepository: BookRepository
+        BookRepository.INSTANCE = BookRepositoryImpl(appDatabase)
     }
 }
