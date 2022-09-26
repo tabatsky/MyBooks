@@ -1,5 +1,6 @@
 package jatx.mybooks.ui.addbook
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -71,6 +72,25 @@ class AddBookFragment : Fragment() {
                 viewModel.book.date = date
                 binding.dateButton.text = viewModel.book.dateAsString
             }
+        }
+
+        binding.deleteButton.visibility = if (viewModel.book.id >= 0)
+            View.VISIBLE
+        else
+            View.GONE
+        binding.deleteButton.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.delete)
+                .setMessage(R.string.delete_are_you_sure)
+                .setPositiveButton(R.string.yes) { dialog, _ ->
+                    viewModel.delete {
+                        afterSaving()
+                    }
+                    dialog.dismiss()
+                }.setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
 
         binding.saveButton.setOnClickListener {

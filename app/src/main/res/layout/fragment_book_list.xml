@@ -12,14 +12,9 @@
         android:layout_weight="1"
         tools:listitem="@layout/item_book_list" />
 
-    <Button
-        android:id="@+id/add_book_button"
+    <Spinner
+        android:id="@+id/filter_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="16dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:text="@string/add_book"
         />
 </LinearLayout>

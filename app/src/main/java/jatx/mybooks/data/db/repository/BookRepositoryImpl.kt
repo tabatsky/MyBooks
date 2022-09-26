@@ -30,4 +30,8 @@ class BookRepositoryImpl(
     override suspend fun updateBook(book: Book) = appDatabase
         .wordDao()
         .updateBook(book.toEntity())
+
+    override suspend fun deleteBook(book: Book) = appDatabase
+        .wordDao()
+        .deleteBook(book.toEntity())
 }

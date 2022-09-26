@@ -31,18 +31,21 @@ data class Book(
 
 enum class BookType(
     val typeName: String,
+    val index: Int,
     val color: Int
 ) {
-    PROGRAMMING("Программирование", R.color.light_green),
-    FICTION("Художественная", R.color.light_blue),
-    OTHER("Прочее", R.color.light_yellow);
+    ALL("Все", -1, R.color.black),
+    PROGRAMMING("Программирование", 0, R.color.light_green),
+    FICTION("Художественная", 1, R.color.light_blue),
+    OTHER("Прочее", 2, R.color.light_yellow);
 
     companion object {
-        fun bookTypeByIndex(index: Int) = values().getOrNull(index)
+        fun bookTypeByIndex(index: Int) = values().firstOrNull { it.index == index }
             ?: throw IllegalArgumentException("No element with such index")
 
-        fun indexOfBookType(bookType: BookType) = bookType.ordinal
+        fun indexOfBookType(bookType: BookType) = bookType.index
 
-        val stringsForSpinner = values().map { it.typeName }
+        val stringsForSpinner = values().filter { it.index >= 0 }.map { it.typeName }
+        val allStringsForSpinner = values().map { it.typeName }
     }
 }

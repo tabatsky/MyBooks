@@ -32,4 +32,9 @@ class AddBookViewModel : ViewModel() {
         Book.lastDate = book.date
         onSaved()
     }
+    
+    fun delete(onSaved: () -> Unit) = viewModelScope.launch {
+        BookRepository.INSTANCE.deleteBook(book)
+        onSaved()
+    }
 }

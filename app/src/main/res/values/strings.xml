@@ -9,4 +9,8 @@
     <string name="toast_save_data_success">Данные успешно выгружены</string>
     <string name="toast_some_error">Возникла ошибка</string>
     <string name="audio_book">Аудиокнига</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_are_you_sure">Вы уверены, что хотите удалить запись?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>
