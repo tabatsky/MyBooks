@@ -1,55 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/light_green">
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        tools:text="Автор книги" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textStyle="italic|bold"
-        android:textSize="16sp"
-        tools:text="Название книги" />
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="book"
+            type="jatx.mybooks.domain.models.Book" />
+    </data>
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        app:backgroundColorResource="@{book.type.color}">
         <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
+            android:id="@+id/author"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/black"
-            android:textStyle="italic"
-            android:textSize="14sp"
-            tools:text="26.09.2022" />
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@{book.author}"
+            tools:text="Автор книги" />
 
-        <ImageView
-            android:id="@+id/is_audio_book"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_headphones_24"
-            />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="italic|bold"
+            android:textSize="16sp"
+            android:text="@{book.title}"
+            tools:text="Название книги" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textColor="@color/black"
+                android:textStyle="italic"
+                android:textSize="14sp"
+                android:text="@{book.dateAsString}"
+                tools:text="26.09.2022" />
+
+            <ImageView
+                android:id="@+id/is_audio_book"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_baseline_headphones_24"
+                android:visibility="@{book.audioBook ? View.VISIBLE : View.GONE}"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
-</LinearLayout>
+</layout>

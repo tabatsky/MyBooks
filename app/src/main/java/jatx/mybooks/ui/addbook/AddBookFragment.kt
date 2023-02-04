@@ -35,9 +35,12 @@ class AddBookFragment : Fragment() {
         _binding = FragmentAddBookBinding
             .inflate(layoutInflater, container, false)
 
-        viewModel.loadBookById(args.id) {
-            updateUi()
-        }
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
+
+        setListeners()
+
+        viewModel.loadBookById(args.id)
 
         return binding.root
     }
@@ -53,31 +56,15 @@ class AddBookFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun updateUi() {
-        binding.author.setText(viewModel.book.author)
-        binding.title.setText(viewModel.book.title)
-
-        binding.bookTypeSpinner.setItems(BookType.stringsForSpinner)
-        binding.bookTypeSpinner.setSelection(BookType.indexOfBookType(viewModel.book.type))
-        binding.bookTypeSpinner.setOnItemSelectedListener {
-            viewModel.book.type = BookType.bookTypeByIndex(it)
-        }
-
-        binding.isAudioBook.isChecked = viewModel.book.isAudioBook
-
-        binding.dateButton.text = viewModel.book.dateAsString
+    private fun setListeners() {
         binding.dateButton.setOnClickListener {
             val book = viewModel.book
             selectDate(book.date) { date ->
                 viewModel.book.date = date
-                binding.dateButton.text = viewModel.book.dateAsString
+                viewModel.dateAsString.value = viewModel.book.dateAsString
             }
         }
 
-        binding.deleteButton.visibility = if (viewModel.book.id >= 0)
-            View.VISIBLE
-        else
-            View.GONE
         binding.deleteButton.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle(R.string.delete)
@@ -96,19 +83,21 @@ class AddBookFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             val book = viewModel.book
 
-            book.author = binding.author.text.toString().trim()
+            book.author = viewModel.author.value
             if (book.author.isEmpty()) {
                 showToast(R.string.toast_empty_author)
                 return@setOnClickListener
             }
 
-            book.title = binding.title.text.toString().trim()
+            book.title = viewModel.title.value
             if (book.title.isEmpty()) {
                 showToast(R.string.toast_empty_title)
                 return@setOnClickListener
             }
 
-            book.isAudioBook = binding.isAudioBook.isChecked
+            book.isAudioBook = viewModel.isAudioBook.value
+
+            book.type = BookType.bookTypeByIndex(viewModel.bookType.value)
 
             viewModel.save {
                 afterSaving()

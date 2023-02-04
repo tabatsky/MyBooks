@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/book_list_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="viewmodel"
+            type="jatx.mybooks.ui.booklist.BookListViewModel" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/item_book_list" />
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/book_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:items="@{viewmodel.actualBooks}"
+            tools:listitem="@layout/item_book_list" />
 
-    <Spinner
-        android:id="@+id/filter_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-</LinearLayout>
+        <Spinner
+            android:id="@+id/filter_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:items="@{viewmodel.allStringsForSpinner}"
+            app:selectedItem="@{viewmodel.spinnerPosition}"
+            app:onItemSelectedListener="@{(it) -> viewmodel.onSpinnerItemSelected(it)}"
+            />
+    </LinearLayout>
+</layout>

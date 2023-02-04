@@ -1,7 +1,6 @@
 package jatx.mybooks.ui.booklist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -32,19 +31,11 @@ class BookHolder(
 
     fun bind(book: Book, onItemClick: (Int) -> Unit) {
         with(binding) {
-            val context = root.context
-            @Suppress("DEPRECATION") val bgColor = context.resources.getColor(book.type.color)
-            root.setBackgroundColor(bgColor)
+            this.book = book
             root.setOnClickListener {
                 onItemClick(book.id)
             }
-            author.text = book.author
-            title.text = book.title
-            date.text = book.dateAsString
-            isAudioBook.visibility = if (book.isAudioBook)
-                View.VISIBLE
-            else
-                View.INVISIBLE
+            executePendingBindings()
         }
 
     }

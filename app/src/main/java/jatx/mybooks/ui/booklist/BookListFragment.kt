@@ -7,19 +7,10 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import jatx.mybooks.R
 import jatx.mybooks.databinding.FragmentBookListBinding
-import jatx.mybooks.domain.models.Book
-import jatx.mybooks.domain.models.BookType
-import jatx.mybooks.util.setItems
-import jatx.mybooks.util.setOnItemSelectedListener
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class BookListFragment : Fragment() {
 
@@ -31,9 +22,6 @@ class BookListFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    private val _spinnerPosition = MutableStateFlow(0)
-    private val spinnerPosition = _spinnerPosition.asStateFlow()
-
     private val adapter = BookListAdapter()
 
     override fun onCreateView(
@@ -42,6 +30,9 @@ class BookListFragment : Fragment() {
     ): View {
         _binding = FragmentBookListBinding
             .inflate(layoutInflater, container, false)
+
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
 
         binding.bookListView.layoutManager = LinearLayoutManager(requireContext())
         binding.bookListView.adapter = adapter
@@ -72,40 +63,10 @@ class BookListFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        binding.filterSpinner.setItems(BookType.allStringsForSpinner)
-        binding.filterSpinner.setSelection(0)
-        binding.filterSpinner.setOnItemSelectedListener {
-            _spinnerPosition.value = it
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                spinnerPosition.collect {
-                    val list = viewModel.books.value.filterByType(it)
-                    adapter.submitList(list)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.books.collect {
-                    val list = it.filterByType(spinnerPosition.value)
-                    adapter.submitList(list)
-                }
-            }
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun List<Book>.filterByType(spinnerPosition: Int): List<Book> {
-        val type = BookType.bookTypeByIndex(spinnerPosition - 1)
-        return filter {
-            (it.type == type).or(type == BookType.ALL)
-        }
     }
 }
