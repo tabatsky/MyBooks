@@ -19,7 +19,7 @@ fun <T> Spinner.setItems(list: List<T>) {
 fun setOnItemSelectedListener(spinner: Spinner, onSelect: (Any?) -> Unit) {
     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         var prevPosition =
-            if (spinner.selectedItemPosition > 0) spinner.selectedItemPosition else 0
+            spinner.selectedItemPosition.takeIf { it > 0 } ?: 0
 
         override fun onItemSelected(
             parent: AdapterView<*>?,
