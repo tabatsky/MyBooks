@@ -8,11 +8,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class BookListViewModel : ViewModel() {
-    private val _books: MutableStateFlow<List<Book>> = MutableStateFlow(emptyList())
-    private val books: StateFlow<List<Book>>
-        get() = _books.asStateFlow()
+    private val books: MutableStateFlow<List<Book>> = MutableStateFlow(emptyList())
 
-    val allStringsForSpinner: MutableStateFlow<List<String>> = MutableStateFlow(BookType.allStringsForSpinner)
+    val allStringsForSpinner = BookType.allStringsForSpinner
     val spinnerPosition = MutableStateFlow(0)
 
     val actualBooks = books.combine(spinnerPosition) { list, position ->
@@ -22,7 +20,7 @@ class BookListViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             BookRepository.INSTANCE.getAllBooks().collect {
-                _books.value = it
+                books.value = it
             }
         }
     }

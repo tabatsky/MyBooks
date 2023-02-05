@@ -15,7 +15,7 @@ class AddBookViewModel : ViewModel() {
     val isAudioBook: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isDeleteVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    val stringsForSpinner: MutableStateFlow<List<String>> = MutableStateFlow(BookType.stringsForSpinner)
+    val stringsForSpinner = BookType.stringsForSpinner
     val bookType: MutableStateFlow<Int> = MutableStateFlow(0)
 
     private var _book: Book? = null

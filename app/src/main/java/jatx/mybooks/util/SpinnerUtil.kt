@@ -1,6 +1,5 @@
 package jatx.mybooks.util
 
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,7 +18,8 @@ fun <T> Spinner.setItems(list: List<T>) {
 @BindingAdapter("onItemSelectedListener")
 fun setOnItemSelectedListener(spinner: Spinner, onSelect: (Any?) -> Unit) {
     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        var prevPosition = 0
+        var prevPosition =
+            if (spinner.selectedItemPosition > 0) spinner.selectedItemPosition else 0
 
         override fun onItemSelected(
             parent: AdapterView<*>?,
@@ -39,6 +39,5 @@ fun setOnItemSelectedListener(spinner: Spinner, onSelect: (Any?) -> Unit) {
 
 @BindingAdapter("selectedItem")
 fun setSelectedItem(spinner: Spinner, position: Int) {
-    Log.e("select position", position.toString())
     spinner.setSelection(position, false)
 }
