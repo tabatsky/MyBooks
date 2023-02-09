@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import jatx.mybooks.R
 import jatx.mybooks.databinding.FragmentBookListBinding
 
@@ -34,7 +33,6 @@ class BookListFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
-        binding.bookListView.layoutManager = LinearLayoutManager(requireContext())
         binding.bookListView.adapter = adapter
 
         adapter.onItemClick = {
