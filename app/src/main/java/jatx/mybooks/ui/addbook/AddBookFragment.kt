@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.*
 import jatx.mybooks.R
 import jatx.mybooks.databinding.FragmentAddBookBinding
 import jatx.mybooks.domain.models.BookType
@@ -20,11 +21,7 @@ class AddBookFragment : Fragment() {
 
     private val viewModel: AddBookViewModel by viewModels()
 
-    private var _binding: FragmentAddBookBinding? = null
-    private val binding
-        get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visible?"
-        }
+    private val binding: FragmentAddBookBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private val args: AddBookFragmentArgs by navArgs()
 
@@ -32,9 +29,6 @@ class AddBookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddBookBinding
-            .inflate(layoutInflater, container, false)
-
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
@@ -43,11 +37,6 @@ class AddBookFragment : Fragment() {
         viewModel.loadBookById(args.id)
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun afterSaving() {

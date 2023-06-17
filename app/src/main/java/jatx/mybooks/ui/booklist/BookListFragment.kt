@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.*
 import jatx.mybooks.R
 import jatx.mybooks.databinding.FragmentBookListBinding
 
@@ -15,11 +16,7 @@ class BookListFragment : Fragment() {
 
     private val viewModel: BookListViewModel by viewModels()
 
-    private var _binding: FragmentBookListBinding? = null
-    private val binding
-        get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visible?"
-        }
+    private val binding: FragmentBookListBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private val adapter = BookListAdapter()
 
@@ -27,9 +24,6 @@ class BookListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBookListBinding
-            .inflate(layoutInflater, container, false)
-
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
@@ -61,10 +55,5 @@ class BookListFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
