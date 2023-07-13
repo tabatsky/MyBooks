@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jatx.mybooks.databinding.ItemBookListBinding
 import jatx.mybooks.domain.models.Book
 
-class BookListAdapter: ListAdapter<Book, BookHolder>(BookDiffUtil()) {
+class BookListAdapter: ListAdapter<Book, BookHolder>(BookDiffUtil) {
 
     var onItemClick: (Int) -> Unit  = {}
 
@@ -41,7 +41,7 @@ class BookHolder(
     }
 }
 
-class BookDiffUtil(): DiffUtil.ItemCallback<Book>() {
+object BookDiffUtil: DiffUtil.ItemCallback<Book>() {
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
         return oldItem.id == newItem.id
     }
