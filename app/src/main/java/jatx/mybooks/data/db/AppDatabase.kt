@@ -19,7 +19,7 @@ import jatx.mybooks.data.db.entity.BookEntity
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun wordDao(): BookDao
+    abstract fun bookDao(): BookDao
 
     companion object {
         @Volatile

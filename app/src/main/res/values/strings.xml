@@ -7,6 +7,7 @@
     <string name="toast_empty_author">Не заполнено поле \"Автор\"</string>
     <string name="toast_empty_title">Не заполнено поле \"Название\"</string>
     <string name="toast_save_data_success">Данные успешно выгружены</string>
+    <string name="toast_load_data_success">Данные успешно загружены</string>
     <string name="toast_some_error">Возникла ошибка</string>
     <string name="audio_book">Аудиокнига</string>
     <string name="delete">Удалить</string>

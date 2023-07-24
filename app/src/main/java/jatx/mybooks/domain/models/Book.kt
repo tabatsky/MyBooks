@@ -14,7 +14,6 @@ data class Book(
 ) {
     val dateAsString: String
         get(){
-            val sdf = SimpleDateFormat("dd.MM.yyyy", Locale("ru-RU"))
             return sdf.format(date)
         }
 
@@ -26,6 +25,25 @@ data class Book(
 
     companion object {
         var lastDate = Date()
+
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale("ru-RU"))
+
+        fun parseBackupString(backupString: String): Book {
+            val book = Book()
+
+            val list = backupString.split("|")
+
+            book.id = list[0].toInt()
+            book.author = list[1]
+            book.title = list[2]
+            book.date = parseDateFromString(list[3])
+            book.type = BookType.bookTypeByIndex(list[4].toInt())
+            book.isAudioBook = list[5].toBoolean()
+
+            return book
+        }
+
+        fun parseDateFromString(dateAsString: String) = sdf.parse(dateAsString)
     }
 }
 

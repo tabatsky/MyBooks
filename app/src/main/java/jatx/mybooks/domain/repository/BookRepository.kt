@@ -9,6 +9,9 @@ interface BookRepository {
     suspend fun addBook(book: Book)
     suspend fun updateBook(book: Book)
     suspend fun deleteBook(book: Book)
+    suspend fun deleteAllBooks()
+    suspend fun addBooks(books: List<Book>)
+
 
     companion object {
         lateinit var INSTANCE: BookRepository

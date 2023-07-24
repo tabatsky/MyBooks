@@ -12,26 +12,34 @@ class BookRepositoryImpl(
     private val appDatabase: AppDatabase
     ): BookRepository {
     override fun getAllBooks(): Flow<List<Book>> = appDatabase
-        .wordDao()
+        .bookDao()
         .getAllBooks()
         .map { list ->
             list.map { it.toModel() }
         }
 
     override suspend fun getBookById(id: Int) = appDatabase
-        .wordDao()
+        .bookDao()
         .getBookById(id)
         .toModel()
 
     override suspend fun addBook(book: Book) = appDatabase
-        .wordDao()
+        .bookDao()
         .addBook(book.toEntity())
 
     override suspend fun updateBook(book: Book) = appDatabase
-        .wordDao()
+        .bookDao()
         .updateBook(book.toEntity())
 
     override suspend fun deleteBook(book: Book) = appDatabase
-        .wordDao()
+        .bookDao()
         .deleteBook(book.toEntity())
+
+    override suspend fun deleteAllBooks() = appDatabase
+        .bookDao()
+        .deleteAllBooks()
+
+    override suspend fun addBooks(books: List<Book>) = appDatabase
+        .bookDao()
+        .addBooks(books.map { it.toEntity() })
 }
