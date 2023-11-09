@@ -1,7 +1,6 @@
 package jatx.mybooks.ui.addbook
 
 import android.app.AlertDialog
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,11 +42,7 @@ class AddBookFragment : Fragment() {
 
     private fun afterSaving() {
         Log.e("AddBookFragment", "afterSaving")
-        if (Build.VERSION.SDK_INT < 33) {
-            tryToSaveBackup()
-        } else {
-            (requireActivity() as? AppCompatActivity)?.onSavePermissionGranted()
-        }
+        tryToSaveBackup(requireActivity() as AppCompatActivity)
         findNavController().popBackStack()
     }
 

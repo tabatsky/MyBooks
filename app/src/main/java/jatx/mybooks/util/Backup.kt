@@ -24,21 +24,23 @@ object Backup {
     lateinit var saveLauncher: ActivityResultLauncher<Array<String>>
     lateinit var loadLauncher: ActivityResultLauncher<Array<String>>
 
-    private val permissions = if (Build.VERSION.SDK_INT > 29) {
-        arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    } else {
-        arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-    }
-
-    fun tryToSaveBackup() {
-        saveLauncher.launch(
-            permissions
-        )
+    fun tryToSaveBackup(activity: AppCompatActivity) {
+        if (Build.VERSION.SDK_INT <= 29) {
+            saveLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            )
+        } else if (Build.VERSION.SDK_INT <= 32) {
+            saveLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
+        } else {
+            activity.onSavePermissionGranted()
+        }
     }
 }
 
@@ -64,7 +66,7 @@ fun AppCompatActivity.onSavePermissionGranted() {
                     }
                     Log.e("BackupSave", "success")
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    Log.e("BackupSave", "error", e)
                     withContext(Dispatchers.Main) {
                         showToast(getString(R.string.toast_some_error))
                     }
