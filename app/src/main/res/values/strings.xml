@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MyBooks</string>
     <string name="add_book">Добавить книгу</string>
+    <string name="load_backup">Загрузить</string>
     <string name="author">Автор</string>
     <string name="title">Название</string>
     <string name="save">Сохранить</string>

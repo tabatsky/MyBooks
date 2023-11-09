@@ -6,13 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import jatx.mybooks.util.Backup.loadLauncher
 import jatx.mybooks.util.Backup.saveLauncher
-import jatx.mybooks.util.Backup.tryToLoadBackup
-import jatx.mybooks.util.onLoadPermissionGranted
+import jatx.mybooks.util.onLoadFromUri
 import jatx.mybooks.util.onSavePermissionGranted
 
 
@@ -28,10 +26,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { map ->
-            if (map.all { it.value }) {
-                onLoadPermissionGranted()
+            ActivityResultContracts.OpenDocument()
+        ) {
+            it?.let { uri ->
+                onLoadFromUri(uri, this)
             }
         }
     }
@@ -39,20 +37,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        requestForManageExternalStorage()
-
-        initBookList()
     }
 
-    private fun initBookList() {
-        Log.e("MainActivity", "onAppStart")
-        if (Build.VERSION.SDK_INT < 33) {
-            tryToLoadBackup()
-        } else {
-            onLoadPermissionGranted()
-        }
-    }
 
     private fun requestForManageExternalStorage() {
         if (Build.VERSION.SDK_INT >= 30) {

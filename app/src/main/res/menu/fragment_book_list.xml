@@ -8,4 +8,11 @@
         android:icon="@drawable/ic_baseline_add_24"
         android:title="@string/add_book"
         app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/item_load_backup"
+        android:icon="@drawable/ic_question"
+        android:title="@string/load_backup"
+        app:showAsAction="ifRoom|withText"
+        />
 </menu>

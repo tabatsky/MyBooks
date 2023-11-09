@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.*
 import jatx.mybooks.R
 import jatx.mybooks.databinding.FragmentBookListBinding
+import jatx.mybooks.util.Backup
 
 class BookListFragment : Fragment() {
 
@@ -49,6 +50,10 @@ class BookListFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.item_add_book -> {
                         findNavController().navigate(BookListFragmentDirections.actionAddBook(-1))
+                        true
+                    }
+                    R.id.item_load_backup -> {
+                        Backup.loadLauncher.launch(arrayOf("*/*"))
                         true
                     }
                     else -> false

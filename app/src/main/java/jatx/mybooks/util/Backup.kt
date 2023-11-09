@@ -1,6 +1,8 @@
 package jatx.mybooks.util
 
 import android.Manifest
+import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.Log
@@ -38,12 +40,6 @@ object Backup {
             permissions
         )
     }
-
-    fun tryToLoadBackup() {
-        loadLauncher.launch(
-            permissions
-        )
-    }
 }
 
 fun AppCompatActivity.onSavePermissionGranted() {
@@ -78,7 +74,7 @@ fun AppCompatActivity.onSavePermissionGranted() {
     }
 }
 
-fun AppCompatActivity.onLoadPermissionGranted() {
+fun AppCompatActivity.onLoadFromUri(uri: Uri, context: Context) {
     Log.e("BackupLoad", "started")
     lifecycleScope.launch {
         withContext(Dispatchers.IO) {
@@ -86,14 +82,7 @@ fun AppCompatActivity.onLoadPermissionGranted() {
             try {
                 val books = arrayListOf<Book>()
 
-                val dir = Environment
-                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                dir.mkdirs()
-                val inFile = File(dir, "MyBooks.txt")
-
-                Log.e("BackupLoad", "trying to open: ${inFile.absolutePath}")
-
-                val sc = Scanner(inFile)
+                val sc = Scanner(context.contentResolver.openInputStream(uri))
                 while (sc.hasNextLine()) {
                     val backupString = sc.nextLine().trim()
                     if (backupString.isEmpty()) continue
