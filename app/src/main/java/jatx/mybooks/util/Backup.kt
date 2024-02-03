@@ -54,7 +54,8 @@ fun AppCompatActivity.onSavePermissionGranted() {
                     val dir = Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
                     dir.mkdirs()
-                    val outFile = File(dir, "MyBooks.txt")
+                    val uid = android.os.Process.myUid()
+                    val outFile = File(dir, "MyBooks_$uid.txt")
                     val pw = PrintWriter(outFile)
                     books.forEach {
                         pw.println(it.backupString)
